@@ -69,7 +69,17 @@ class Work {
   } ////Login End//////
 
   exit() {
-    if (!this.currentAccount) return false;
+    // if (!this.currentAccount) return false;
+    this.btnExit.addEventListener("click", () => {
+      loginInput.value = "";
+      loginAs.style.display = "none";
+      sectionContainer.innerHTML = "";
+      header.textContent = "Bye Bye";
+      setTimeout(function () {
+        header.textContent = "Welcome";
+      }, 3000);
+    });
+    return this;
   }
 
   ///////////displaying Role Menu///////////
@@ -101,7 +111,7 @@ class Work {
 
   adminSectionDisplay() {
     loginAs.style.display = "none";
-    sectionContainer.innerHTML = `<div class="admin-section hidden">
+    sectionContainer.innerHTML = `<div class="admin-section">
 <h2>Admin Section</h2>
 <p>
   Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
@@ -112,7 +122,7 @@ class Work {
   }
   sellerSectionDisplay() {
     loginAs.style.display = "none";
-    sectionContainer.innerHTML = `<div class="seller-section hidden">
+    sectionContainer.innerHTML = `<div class="seller-section">
     <h2>Seller Section</h2>
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
@@ -125,4 +135,5 @@ class Work {
 
 const employee = new Work(btnLogin, btnExit, btnAdmin, btnSeller, workers)
   .login()
-  .adminBtn();
+  .adminBtn()
+  .exit();
