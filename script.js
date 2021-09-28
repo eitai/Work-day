@@ -18,22 +18,23 @@ const workers = [
     firstName: "eitai",
     id: 305126252,
     role: ["admin", "seller"],
+    workHours: [],
   },
   {
     firstName: "koral",
     id: 205749518,
     role: ["admin", "seller"],
   },
-  { firstName: "meir", id: 112233445, role: ["seller"] },
+  { firstName: "meir", id: 112233445, role: ["seller"], workHours: [] },
   {
     firstName: "michal",
     id: 554433221,
     role: ["admin"],
+    workHours: [],
   },
 ];
 
 class Work {
-  WorkHours = [];
   currentAccount;
   constructor(btnEnter, btnExit, btnAdmin, btnSeller, workers) {
     this.btnEnter = btnEnter;
@@ -53,9 +54,9 @@ class Work {
   login() {
     this.btnEnter.addEventListener("click", () => {
       this.currentAccount = this.workers.find(
-        (key) => key?.id === +loginInput.value
+        (key) => key.id === +loginInput.value
       );
-      ///////validating current Account /////////////
+      ///////validating current account /////////////
       if (this.validationInputCheck(+loginInput.value)) {
         this.btnEnter.style.display = "none";
         header.textContent = `Welcome Back ${
@@ -64,7 +65,10 @@ class Work {
         }`;
         this.displaySection(this.currentAccount);
       } else throw Error(alert("Employee Does not Exist or Worng ID number"));
+
+      this.setWorkingTime();
     });
+
     return this;
   } ////Login End//////
 
@@ -130,6 +134,35 @@ class Work {
       necessitatibus provident.
     </p>
     </div>`;
+  }
+  //push working hours to object array
+  setWorkingTime(currAcc) {
+    let today = new Date();
+
+    let newWorkDate =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
+    let newWorkHours = today.getHours() + ":" + today.getMinutes();
+
+    let newWorkday = [{ date: newWorkDate, time: newWorkHours }];
+
+    if (this.currentAccount.workHours.slice(-1).length === 2) {
+      this.currentAccount.workHours.push(newWorkday);
+    } else {
+    }
+    console.log(this.currentAccount.workHours.slice(-1));
+    return this;
+  }
+
+  //Push hours to local storage
+  WorkingTime() {
+    window.localStorage.setItem(
+      `${this.currentAccount.firstName}`,
+      JSON.stringify(`${this.currentAccount.workHours}`)
+    );
   }
 }
 
