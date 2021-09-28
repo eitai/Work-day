@@ -62,9 +62,8 @@ class Work {
           this.currentAccount.firstName[0].toUpperCase() +
           this.currentAccount.firstName.slice(1)
         }`;
-        console.log(this.currentAccount);
         this.displaySection(this.currentAccount);
-      }
+      } else throw Error(alert("Employee Does not Exist or Worng ID number"));
     });
     return this;
   } ////Login End//////
@@ -79,8 +78,8 @@ class Work {
       loginAs.style.display = "block";
       loginAs.innerHTML = `
       <h3>Login as</h3>
-      <button class="login-as-admin">${acc.role[0]}</button>
-      <button class="login-as-seller">${acc.role[1]}</button>`;
+      <button class="login-as-admin" id="admin">${acc.role[0]}</button>
+      <button class="login-as-seller" id="seller">${acc.role[1]}</button>`;
     } else if ((acc.role.length = 1)) {
       let accountRole = acc.role[0];
 
@@ -92,7 +91,16 @@ class Work {
     return this;
   }
 
+  adminBtn() {
+    document.body.addEventListener("click", (e) => {
+      if (e.target.id === "admin") this.adminSectionDisplay();
+      if (e.target.id === "seller") this.sellerSectionDisplay();
+    });
+    return this;
+  }
+
   adminSectionDisplay() {
+    loginAs.style.display = "none";
     sectionContainer.innerHTML = `<div class="admin-section hidden">
 <h2>Admin Section</h2>
 <p>
@@ -103,6 +111,7 @@ class Work {
 </div>`;
   }
   sellerSectionDisplay() {
+    loginAs.style.display = "none";
     sectionContainer.innerHTML = `<div class="seller-section hidden">
     <h2>Seller Section</h2>
     <p>
@@ -114,34 +123,6 @@ class Work {
   }
 }
 
-const eitai = new Work(btnLogin, btnExit, btnAdmin, btnSeller, workers).login();
-
-// if (this.validationInputCheck(+loginInput.value)) {
-//   this.btnEnter.style.color = "gray";
-//   header.textContent = `Welcome Back ${
-//     key.firstName[0].toUpperCase() + key.firstName.slice(1)
-//   }`;
-
-//   loginAs.style.display = "block";
-//   // this.currentAccount = this.workers[];
-//   console.log(this.currentAccount);
-// }
-
-`<div class="admin-section hidden">
-<h2>Admin Section</h2>
-<p>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
-  impedit deserunt eveniet illum aliquam culpa dicta cupiditate qui
-  necessitatibus provident.
-</p>
-</div>
-
-<div class="seller-section hidden">
-<h2>Seller Section</h2>
-<p>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita
-  impedit deserunt eveniet illum aliquam culpa dicta cupiditate qui
-  necessitatibus provident.
-</p>
-</div>
-`;
+const employee = new Work(btnLogin, btnExit, btnAdmin, btnSeller, workers)
+  .login()
+  .adminBtn();
